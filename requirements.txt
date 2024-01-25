@@ -1,0 +1,7 @@
+numpy
+sys
+itertools
+config
+tkinter
+matplotlib
+time

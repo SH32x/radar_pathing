@@ -2,34 +2,8 @@
 
 import numpy as np
 import itertools
-import config
-
-def polar_to_cart(r, theta):
-    """Converts a set of polar data to cartesian coordinates"""
-    x = r*np.cos(theta)
-    y = r*np.sin(theta)
-    return x, y
-def cart_to_cell(x, y):
-    """Converts a set of cartesian coordinates"""
-    x_nearest_ind = find_nearest(config.cell_ranges, x)
-    if x > config.cell_ranges[x_nearest_ind]:
-        x_cell = int(x_nearest_ind - config.grid_size_internal / 2 + 0.5)
-    else:
-        x_cell = int(x_nearest_ind - config.grid_size_internal / 2 - 0.5)
-
-    y_nearest_ind = find_nearest(config.cell_ranges, y)
-    if y > config.cell_ranges[y_nearest_ind]:
-        y_cell = int(y_nearest_ind - config.grid_size_internal / 2 + 0.5)
-    else:
-        y_cell = int(y_nearest_ind - config.grid_size_internal / 2 - 0.5)
-    return x_cell, y_cell
-
-def find_nearest(array, value):
-    """Finds nearest cell to a given point on the gui"""
-    array = np.asarray(array)
-    idx = (np.abs(array - value)).argmin()
-    return idx
-
+import src.config as config
+import src.coords as coords
 
 def bresenham(start, end):
     """
@@ -119,8 +93,8 @@ def get_red_and_pink_cells(occupied_cells, angles):
 
         angle = angles[i]
 
-        x, y = (polar_to_cart(np.sqrt(2) * config.max_range, angle))
-        distant_cell = cart_to_cell(x,y)
+        x, y = (coords.polar_to_cart(np.sqrt(2) * config.max_range, angle))
+        distant_cell = coords.cart_to_cell(x,y)
         print(occupied_cell)
         print(distant_cell)
         if distant_cell != occupied_cell:
@@ -174,7 +148,7 @@ def main(polar_map):
     # Find occupied cells
     for index, x in enumerate(x_cart):
         y = y_cart[index]
-        x_cell, y_cell = cart_to_cell(x,y)
+        x_cell, y_cell = coords.cart_to_cell(x,y)
         occupied_cells.append((x_cell, y_cell))
 
     new_occupied_cells = []

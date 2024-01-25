@@ -1,9 +1,9 @@
 # Meant to test grid_mapping.py function-by-function with pre-determined polar coordinate data
 # Note: have to restructure project so that this file can reference functions in src directory
 import numpy as np
-#from ..src import config as config
-#from ..src import grid_mapping as gridmap
-import sys
+from src import config as config
+from src import coords as coords
+from src import grid_mapping as gridmap
 
 
 #Sample polar coordinates map
