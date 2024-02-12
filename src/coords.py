@@ -7,7 +7,7 @@ def polar_to_cart(r, theta):
     y = r*np.sin(theta)
     return x, y
 def cart_to_cell(x, y):
-    """Converts a set of cartesian coordinates"""
+    """Converts a set of cartesian coordinates to cell coordinates"""
     x_nearest_ind = find_nearest(config.cell_ranges, x)
     if x > config.cell_ranges[x_nearest_ind]:
         x_cell = int(x_nearest_ind - config.grid_size_internal / 2 + 0.5)
