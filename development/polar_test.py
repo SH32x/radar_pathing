@@ -4,7 +4,6 @@
 import numpy as np
 from src import config as config
 from src import coords as coords
-from src import grid_mapping as gridmap
 
 
 #Sample polar coordinates map
