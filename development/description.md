@@ -20,9 +20,18 @@ Between the polar map and occupancy grid, we would need some baseline representa
 Try looking into Kalmann filters in order to represent radar data accurately
 ========================
 # polar_test.py Notes
-Testing started at 2:15 PM, continued until 
 function red_and_pink_cells is difficult to understand, it doesn't return anything relevant, only returns the red cells
 whose cartesian and cell coordinates differ due to botched conversion
 Actual Bresenham coordinate retrieval function format:
 def get_bresenham(red cell array)
     -> Find the vertices of the red cells, and return them in a list
+
+
+
+
+Software module structure:
+ Basically three separate software modules for the project:
+ 1) Grid Mapping module (includes Bresenham algo, flood fill, visual grid generation, etc.)
+ 2) Statistical Analysis (radar data probability, Kalmann filter, etc.)
+ 3) Path Planning algo (requires the first two algos to work, takes data from both to generate optimal path)
+ Since 1) and 2) are not dependent on each other, can work on both concurrently

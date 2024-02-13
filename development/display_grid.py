@@ -1,11 +1,13 @@
 # Intended to be standalone, does not require any other project files
 # Visualizes 2 occupancy grids
+# Can also test from terminal with "python -m development.display_grid"
 from tkinter import *
 import matplotlib.pyplot
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
                                                NavigationToolbar2Tk)
 import time
+from development import polar_test as pt
 
 
 grid_1 = [[0, 0, 0, 0, 0, 0, 0],
@@ -23,6 +25,8 @@ grid_2 = [[0, 0, 0, 2, 2, 2, 2],
         [0, 2, 1, 0, 0, 0, 0],
         [2, 2, 2, 0, 0, 0, 0],
         [2, 2, 2, 0, 0, 0, 0]]
+
+grid_3 = pt.generate_grid(pt.get_red_cells(pt.polar_map_s01)) #Test data
 
 def update_gui():
     window.update_idletasks()
@@ -51,12 +55,14 @@ if __name__ == "__main__":
     canvas.get_tk_widget().pack()
 
     # Draw the grids
-    cmap_1 = matplotlib.colors.ListedColormap(['Blue', 'red', 'pink', 'purple'])
+    cmap_1 = matplotlib.colors.ListedColormap(['Blue', 'pink', 'red', 'purple'])
     canvas.draw()
     update_gui()
-    grid_axis_1 = grid_plot_1.pcolor(grid_1[::-1], cmap=cmap_1, edgecolors='k', linewidths=3)
-    grid_axis_2 = grid_plot_2.pcolor(grid_2[::-1], cmap=cmap_1, edgecolors='k', linewidths=3)
+    grid_axis_1 = grid_plot_1.pcolor(grid_3[::-1], cmap=cmap_1, edgecolors='k', linewidths=3)
+    grid_axis_2 = grid_plot_2.pcolor(grid_3[::-1], cmap=cmap_1, edgecolors='k', linewidths=3)
     canvas.draw()
+    #canvas.create_line(80, 80, 500, 500)
     update_gui()
     window.mainloop()
+    
 

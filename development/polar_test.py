@@ -105,58 +105,64 @@ def bresenham(start, end):
     points = np.array(points)
     return points
 
-def get_bresenham(red_cells, angles):
+def get_bresenham(red_cells):
     '''
-    Given the red cells and polar coordinate angles, return a list of marked red cells
-    Note: After testing, I'm not quite sure what the relevance of the marked cells are,
-    it appears to cover only those cells whose cartesian and cell coordinates differ
+    Given a list of red cells, return a list of all cells in a line from the center to each red cell
     '''
-    red_and_pink_cells = []
     m = []
-    for i, occupied_cell in enumerate(red_cells):
-        angle = angles[i]
-        x, y = (coords.polar_to_cart(np.sqrt(2) * config.max_range, angle))
-        distant_cell = coords.cart_to_cell(x,y)
-        print(occupied_cell)
-        print(distant_cell)
-        if distant_cell != occupied_cell:
-            print(f"Occupied Cell: {occupied_cell}")
-            print(f"Angle: {np.degrees(angle)}")
-            print(f"Distant Cell: {distant_cell}")
-
-            m = bresenham(occupied_cell, distant_cell).tolist()
-            print(f"Marked Cells: {str(m)}")
-        for k in m:
-            red_and_pink_cells.append(k)
+    for cell in red_cells:
+        x,y = cell_to_grid_representation(cell)
+        #print("Test")
+        #bresenham(config.grid_center, cell_to_grid_representation(cell)).append(m)
+        b = bresenham(config.grid_center, cell_to_grid_representation(cell)).tolist()
+        #print(f"Line Array: {b}")
+        for k in b:
+            m.append(k)
+        
+    return m
             
+def generate_grid(red_cells):
+    '''
+    Given an array of red cells, return a grid array with the red cells marked
+    0 = blank, 1 = pink, 2 = red, 3 = purple
+    Will eventually add pink cells to the grid
+    '''
+    
+    grid = np.zeros((config.grid_size, config.grid_size))
+    for i, cell in enumerate(red_cells):
+        x = cell[0]
+        y = cell[1]
+        
+        if (x, y) in red_cells:
+            a,b = cell_to_grid_representation(cell)
+            #print([a,b])
+            grid[int(a), int(b)] = 2
+    grid[config.grid_center] = 3
+    return grid
+
+def cell_to_grid_representation(cell):
+    y = int((cell[1] + config.grid_size / 2) - 0.5)
+    x = int(cell[0] + config.grid_size / 2 - 0.5)
+    return x,y
+
+def grid_to_pixel(grid_coord, cell_size):
+    return tuple(coord * cell_size for coord in grid_coord)
+
 if __name__ == "__main__":
     # Will test functions here
+    #print (config.cell_size)
+    #print (bresenham((0, 0), (0,10)))
+    r = get_red_cells(polar_map_s01)
+    grid = generate_grid(r)
+    #print(grid)
+    #print(b)
+    print(get_bresenham(r))
+    '''
     angles = list(polar_map_s01.keys())
     r = get_red_cells(polar_map_s01)
-    #print (polar_map_s01)
-    #print (angles)
-    #print (r)
-    red_and_pink_cells = []
-    m = []
-    for i, occupied_cell in enumerate(r):
-        '''
-        How I tested this function: I recreated it piece by piece and had it print variable outputs at each step
-        '''
-        angle = angles[i]
-        x, y = (coords.polar_to_cart(np.sqrt(2) * config.max_range, angle))
-        #print ('x = ', x)
-        #print ('y = ', y)
-        #print ('angle', i, 'is', angles[i])
-        distant_cell = coords.cart_to_cell(x,y)
-        if distant_cell != occupied_cell:
-            m = bresenham(occupied_cell, distant_cell).tolist()
-            print(f"Marked Cells: {str(m)}")
-        for k in m:
-            red_and_pink_cells.append(k) #Note: The error was in this line, m had not been previously defined
-    print(f"Red Cells: {str(r)}")
+    grid = generate_grid(r)
+    print(grid)
     
-    
-    '''
     Test function comment block
     def line_draw (points):
     # Given an array of Bresenham points and the origin, draw lines from the origin to the points
