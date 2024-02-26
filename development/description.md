@@ -35,3 +35,16 @@ Software module structure:
  2) Statistical Analysis (radar data probability, Kalmann filter, etc.)
  3) Path Planning algo (requires the first two algos to work, takes data from both to generate optimal path)
  Since 1) and 2) are not dependent on each other, can work on both concurrently
+
+  '''
+    Update: Decent progress on the lines, will need to adjust based on cell positioning relative to center,
+    will also need to draw a second line for each cell.
+    Once done, I'll then need to extend the lines behind each vertex to the edge of the grid.
+    '''
+
+Lines Observation:
+plot([y, ctr[0]], [x, ctr[1]], color='yellow') -> Bottom left corner of cell
+plot([y + config.cell_size, ctr[0]], [x + config.cell_size, ctr[1]], color='yellow') -> Dead center of cell
+(y + config.cell_size*2), (x + config.cell_size*2) -> Top right corner of cell
+(y), (x + config.cell_size*2) -> Top left corner of cell
+(y + config.cell_size*2), (x) -> Bottom right corner of cell 

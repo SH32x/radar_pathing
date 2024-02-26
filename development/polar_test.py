@@ -25,7 +25,7 @@ def flood_fill(blue_cells, pink_cells):
 def get_red_cells(polar_map):
     '''
     Given a polar coordinate map, return an array of the occupied cells in the map (red cells)
-    Currently works properly, ex. input polar_map_s01 returns [(10, 0), (10, 10), (0, 10), (-10, 10), (-10, 0),
+    Ex. input polar_map_s01 returns [(10, 0), (10, 10), (0, 10), (-10, 10), (-10, 0),
     (-10, -10), (0, -10), (10, -10)] equal in length to the array angles[]
     '''
     angles = list(polar_map.keys())
@@ -56,9 +56,6 @@ def get_red_cells(polar_map):
     red_cells = list(dict.fromkeys(red_cells))  # remove dupes
 
     return red_cells
-
-def generate_grid():
-    grid = np.zeros((config.grid_size, config.grid_size))
 
 def bresenham(start, end):
     """
